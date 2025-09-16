@@ -1,35 +1,41 @@
-// Import necessary modules from React library
-import React from 'react';
-
-// Import components for routing from react-router-dom library
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// Import custom Navbar component and landing page component
-import Navbar from './Components/Navbar/Navbar';
-import LandingPage from './Components/LandingPage/LandingPage';
+import Navbar from "./Components/Navbar/Navbar";
+import Login from "./Components/Login/Login";
+import SignUp from "./Components/SignUp/SignUp";
+import LandingPage from "./Components/LandingPage/LandingPage";
 
-// Function component for the main App
 function App() {
+  const [showLogin, setShowLogin] = useState(false); // default false
+  const [showSignUp, setShowSignUp] = useState(false); // default false
 
-  // Render the main App component
+  const toggleLogin = () => {
+    setShowLogin(prev => !prev);
+    setShowSignUp(false);
+  };
+
+  const toggleSignUp = () => {
+    setShowSignUp(prev => !prev);
+    setShowLogin(false);
+  };
+
   return (
     <div className="App">
-        {/* Set up BrowserRouter for routing */}
-        <BrowserRouter>
-          {/* Display the Navbar component */}
-          <Navbar/>
-          
+      <BrowserRouter>
+        <Navbar onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />
 
+        {/* Conditionally show Login/SignUp based on user interaction */}
+        {showLogin && <Login />}
+        {showSignUp && <SignUp />}
 
-          {/* Set up the Routes for different pages */}
-          <Routes>
-            {/* Define individual Route components for different pages */}
-            <Route path="/" element={<LandingPage/>}/>
-          </Routes>
-        </BrowserRouter>
+        {/* Show Landing Page by default on "/" route */}
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
 
-// Export the App component as the default export
 export default App;
