@@ -1,41 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 const Navbar = ({ onLoginClick, onSignUpClick }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [username, setUsername] = useState("");
+  const handleLogout = () => {
+    sessionStorage.removeItem("auth-token");
+    sessionStorage.removeItem("name");
+    sessionStorage.removeItem("email");
+    sessionStorage.removeItem("phone");
+    localStorage.removeItem("doctorData");
 
-    const handleLogout = () => {
-        sessionStorage.removeItem("auth-token");
-        sessionStorage.removeItem("name");
-        sessionStorage.removeItem("email");
-        sessionStorage.removeItem("phone");
-        // remove email phone
-        localStorage.removeItem("doctorData");
-        setIsLoggedIn(false);
-        // setUsername("");
-       
-        // Remove the reviewFormData from local storage
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key.startsWith("reviewFormData_")) {
-            localStorage.removeItem(key);
-          }
-        }
-        window.location.reload();
+    // Clear review form data from localStorage
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith("reviewFormData_")) {
+        localStorage.removeItem(key);
+      }
+    });
+
+    setIsLoggedIn(false);
+    setUsername("");
+
+    // Option 1: navigate without reload (comment out if undesired)
+    navigate('/');
+
+    // Option 2: full page reload (comment out if using navigate)
+    // window.location.reload();
+  };
+
+  useEffect(() => { 
+    const storedEmail = sessionStorage.getItem("email");
+    if (storedEmail) {
+      setIsLoggedIn(true);
+      setUsername(storedEmail);
     }
-
-    useEffect(() => { 
-      const storedemail = sessionStorage.getItem("email");
-
-      if (storedemail) {
-            setIsLoggedIn(true);
-            setUsername(storedemail);
-          }
-        }, []);
-
+  }, []);
 
   return (
     <nav>
@@ -49,6 +51,7 @@ const Navbar = ({ onLoginClick, onSignUpClick }) => {
       </div>
       <ul className="nav-right">
         <li>
+          {/* Changed to lowercase path */}
           <Link to="/">Home</Link>
         </li>
         <li>
@@ -60,10 +63,14 @@ const Navbar = ({ onLoginClick, onSignUpClick }) => {
         <li>
           <Link to="/reviews">Reviews</Link>
         </li>
-        {/* Changed this from <a> to <button> */}
-        {isLoggedIn?(
-            <>
-            <li className="user-info">Welcome, {username}</li>
+        <li>
+          {/* Changed to lowercase path */}
+          <Link to="/instant-consultation">Instant Booking Consultation</Link>
+        </li>
+        {isLoggedIn ? (
+          <>
+            {/* Show only part before @ */}
+            <li className="user-info">Welcome, {username.split('@')[0]}</li>
             <li className="link">
               <button className="btn2" onClick={handleLogout}>
                 Logout
@@ -71,18 +78,18 @@ const Navbar = ({ onLoginClick, onSignUpClick }) => {
             </li>
           </>
         ) : (
-            <>
+          <>
             <li>
-            <button className="signup-btn" onClick={onSignUpClick}>
+              <button className="signup-btn" onClick={onSignUpClick}>
                 Sign Up
-            </button>
+              </button>
             </li>
             <li>
-            <button className="login-btn" onClick={onLoginClick}>
+              <button className="login-btn" onClick={onLoginClick}>
                 Login
-            </button>
+              </button>
             </li>
-            </>
+          </>
         )}
       </ul>
     </nav>

@@ -5,16 +5,22 @@ import Navbar from "./Components/Navbar/Navbar";
 import Login from "./Components/Login/Login";
 import SignUp from "./Components/SignUp/SignUp";
 import LandingPage from "./Components/LandingPage/LandingPage";
+import InstantConsultation from './Components/InstantConsultation/InstantConsultation';  
 
 function App() {
-  const [showLogin, setShowLogin] = useState(false); // default false
-  const [showSignUp, setShowSignUp] = useState(false); // default false
+  // State to control showing Login modal
+  const [showLogin, setShowLogin] = useState(false);
 
+  // State to control showing SignUp modal
+  const [showSignUp, setShowSignUp] = useState(false);
+
+  // Toggle login modal visibility, hide signup
   const toggleLogin = () => {
     setShowLogin(prev => !prev);
     setShowSignUp(false);
   };
 
+  // Toggle signup modal visibility, hide login
   const toggleSignUp = () => {
     setShowSignUp(prev => !prev);
     setShowLogin(false);
@@ -23,15 +29,17 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        {/* Pass toggle functions to Navbar */}
         <Navbar onLoginClick={toggleLogin} onSignUpClick={toggleSignUp} />
 
-        {/* Conditionally show Login/SignUp based on user interaction */}
+        {/* Conditionally render Login and SignUp modals */}
         {showLogin && <Login />}
         {showSignUp && <SignUp />}
 
-        {/* Show Landing Page by default on "/" route */}
+        {/* Routes for main app pages */}
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/instant-consultation" element={<InstantConsultation />} />
         </Routes>
       </BrowserRouter>
     </div>
