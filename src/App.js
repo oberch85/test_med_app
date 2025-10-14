@@ -1,23 +1,34 @@
+// src/App.js
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+// Import your components
 import Navbar from './Components/Navbar/Navbar';
-import LandingPage from './Components/LandingPage/LandingPage';
-import Login from './Components/Login/Login';
+import BookingConsultation from './Components/BookingConsultation';
 import SignUp from './Components/SignUp/SignUp';
-// import Appointments from './Components/Appointments/Appointments'; // if exists
+import Login from './Components/Login/Login';
+// Import other components as needed (Home, HealthBlog, Reviews, etc.)
+
+const Home = () => <h1>Welcome to StayHealthy Home Page</h1>;
+const HealthBlog = () => <h1>Health Blog</h1>;
+const Reviews = () => <h1>Reviews</h1>;
+const Appointments = () => <h1>Appointments</h1>;
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/instant-consultation" element={<BookingConsultation />} />
         <Route path="/signup" element={<SignUp />} />
-        {/* <Route path="/appointments" element={<Appointments />} /> */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/search/doctors" element={<Appointments />} />
+        <Route path="/healthblog" element={<HealthBlog />} />
+        <Route path="/reviews" element={<Reviews />} />
+        {/* Add more routes as needed */}
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 

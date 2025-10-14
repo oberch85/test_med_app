@@ -4,7 +4,7 @@ import './Navbar.css';
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [email, setEmail] = useState('');
+  // const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
 
   // Extract username from email
@@ -13,7 +13,7 @@ const Navbar = () => {
 
     if (storedEmail) {
       setIsLoggedIn(true);
-      setEmail(storedEmail);
+      // setEmail(storedEmail);
       const extractedUsername = storedEmail.split("@")[0];
       setUsername(extractedUsername);
     }
@@ -35,7 +35,7 @@ const Navbar = () => {
     }
 
     setIsLoggedIn(false);
-    setEmail('');
+    // setEmail('');
     setUsername('');
     window.location.reload();
   };
