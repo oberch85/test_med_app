@@ -67,20 +67,17 @@
 
 }
 
-
-
-
 .doctor-search-box {
-    display: flex;
-    align-items: center;
+    position: relative;
     width: 430px;
-    position: absolute;
-    margin-top: 25px;
-    margin-bottom: 20px;
-    box-shadow: rgba(0, 0, 0,.1) 0 - 1px 0 0 inset;
+    /* remove height: 100vh; as that might clip dropdown */
+    box-shadow: rgba(0, 0, 0, 0.1) 0 -1px 0 0 inset;
     border-radius: 5px;
-    height: 100vh;
-}
+    margin-top: 25px;
+  }
+  
+
+
 
 .doctor-search-box>img {
     border: 1px solid #ddd;
@@ -92,36 +89,49 @@
 .search-doctor-input-box {
     height: 40px;
     width: 100%;
-    padding: 6px 20px 5px 10px;
+    padding: 6px 45px 5px 10px; /* right padding to make room for icon */
     outline: none;
     cursor: pointer;
     font-size: 14px;
-    border-top-left-radius:5px;
-    border-bottom-left-radius:5px;
-    border-top-right-radius:0;
-    border-bottom-right-radius:0;
-    border:1px solid rgb(59, 58, 58);
-}
-
-.findiconimg{
-    width: 40px;
-    left: 0;
-    background-color: rgb(239, 234, 234);
-    height: 40px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
     border: 1px solid rgb(59, 58, 58);
-    z-index: -99;
+}
 
+
+.findiconimg {
+    position: absolute;  /* position it inside .doctor-search-box */
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background-color: rgb(239, 234, 234);
+    border: 1px solid rgb(59, 58, 58);
+    z-index: 10;         /* bring icon above input */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+
 .search-doctor-input-results {
-    position: absolute;
-    top: 55%;
-    left: 0;
-    width: 100%;
-    z-index: 5;
-    height: 420px;
-    margin-top: 2px;
-    border: 1px solid #555;
+  position: absolute;
+  top: 55%;
+  left: 0;
+  width: 100%;
+  z-index: 5;
+  max-height: 420px; /* use max-height instead of fixed height */
+  overflow-y: auto; /* enable vertical scrolling */
+  margin-top: 2px;
+  border: 1px solid #555;
+  background-color: white; /* add background for clarity */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 5px;
 }
+
+
 
 .search-doctor-result-item {
     height: 60px;
@@ -160,16 +170,20 @@
     justify-self: flex-end;
 }
 .home-search-container {
-    /* width: 712px; */
     padding: 20px 0;
     display: flex;
-    align-items: center;
+    justify-content: center;  /* horizontally centers child */
+    align-items: center;      /* vertically centers child */
 }
 
-.finddoctor{
-    /* height: 0 auto; */
-    overflow: hidden;
-} 
+
+.finddoctor {
+    /* Remove overflow hidden */
+    overflow: visible; /* or just remove this property */
+    /* Ensure height is auto */
+    height: auto;
+  }
+  
 .finddoctor .mainimg{
     width: 312px;
     height: 312px;

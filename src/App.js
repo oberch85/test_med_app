@@ -9,7 +9,21 @@ import SignUp from './Components/SignUp/SignUp';
 import Login from './Components/Login/Login';
 // Import other components as needed (Home, HealthBlog, Reviews, etc.)
 
-const Home = () => <h1>Welcome to StayHealthy Home Page</h1>;
+// src/pages/Home.js (or inline)
+const Home = () => (
+  <div style={{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '80vh',
+    textAlign: 'center'
+  }}>
+    <h1>Welcome to StayHealthy Home Page</h1>
+  </div>
+);
+
+
+
 const HealthBlog = () => <h1>Health Blog</h1>;
 const Reviews = () => <h1>Reviews</h1>;
 const Appointments = () => <h1>Appointments</h1>;

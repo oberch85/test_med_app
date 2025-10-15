@@ -4,8 +4,8 @@ const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [selectedDate, setSelectedDate] = useState('');
 
-  // Example slots (you can customize or fetch from backend)
   const availableSlots = [
     '10:00 AM - 10:30 AM',
     '11:00 AM - 11:30 AM',
@@ -20,7 +20,6 @@ const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    // Basic phone validation (10 digits)
     if (!/^\d{10}$/.test(phoneNumber)) {
       alert('Please enter a valid 10-digit phone number.');
       return;
@@ -31,10 +30,16 @@ const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
       return;
     }
 
-    onSubmit({ name, phoneNumber, selectedSlot });
+    if (!selectedDate) {
+      alert('Please select a date.');
+      return;
+    }
+
+    onSubmit({ name, phoneNumber, selectedSlot, selectedDate });
     setName('');
     setPhoneNumber('');
     setSelectedSlot(null);
+    setSelectedDate('');
   };
 
   return (
@@ -70,6 +75,18 @@ const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
       </div>
 
       <div className="form-group">
+        <label htmlFor="appointmentDate">Select Date:</label>
+        <input
+          type="date"
+          id="appointmentDate"
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
+          required
+          min={new Date().toISOString().split('T')[0]} // disables past dates
+        />
+      </div>
+
+      <div className="form-group">
         <label>Select Time Slot:</label>
         <div className="slot-options">
           {availableSlots.map((slot) => (
@@ -78,6 +95,7 @@ const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
               key={slot}
               className={`slot-btn ${selectedSlot === slot ? 'selected' : ''}`}
               onClick={() => handleSlotSelection(slot)}
+              aria-pressed={selectedSlot === slot}
             >
               {slot}
             </button>
@@ -85,7 +103,10 @@ const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
         </div>
       </div>
 
-      <button type="submit" disabled={!selectedSlot}>
+      <button
+        type="submit"
+        disabled={!selectedSlot || !name.trim() || !/^\d{10}$/.test(phoneNumber) || !selectedDate}
+      >
         Book Now
       </button>
     </form>

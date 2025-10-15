@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+/* App.css or a dedicated Home.css */
+.home-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh; /* leave room for navbar */
+  text-align: center;
+}
+
