@@ -12,7 +12,7 @@ const Navbar = () => {
 
     if (storedEmail) {
       setIsLoggedIn(true);
-      setUsername(storedEmail.split("@")[0]); // part before @
+      setUsername(storedEmail.split("@")[0]);
     } else {
       setIsLoggedIn(false);
       setUsername("");
@@ -20,16 +20,13 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = () => {
-    // Clear auth + user info
     sessionStorage.removeItem("auth-token");
     sessionStorage.removeItem("name");
     sessionStorage.removeItem("email");
     sessionStorage.removeItem("phone");
 
-    // Clear doctorData + appointment info used by Notification
     localStorage.removeItem("doctorData");
 
-    // Remove any reviewFormData_* entries
     const keysToRemove = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
@@ -41,7 +38,6 @@ const Navbar = () => {
 
     setIsLoggedIn(false);
     setUsername("");
-
     navigate("/");
     window.location.reload();
   };
@@ -78,9 +74,17 @@ const Navbar = () => {
 
         {isLoggedIn ? (
           <>
-            <li>
-              <span className="username">Hello, {username}</span>
+            {/* Dropdown under username */}
+            <li className="nav-user-dropdown">
+              <button className="nav-user-btn">
+                Hello, {username} ▾
+              </button>
+              <div className="nav-user-menu">
+                <Link to="/profile">Profile</Link>
+                <Link to="/reports">Your Reports</Link>
+              </div>
             </li>
+
             <li>
               <button className="btn2" onClick={handleLogout}>
                 Logout
