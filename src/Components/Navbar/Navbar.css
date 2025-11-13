@@ -1,86 +1,111 @@
 /* Reset defaults */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    margin-top: 80px;
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-  }
-  
-  /* Navigation Bar */
-  nav {
-    background-color: #333;
-    color: #fff;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  /* Left side: App title + logo */
-  .nav-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .app-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #ffffff;
-  }
-  
-  .logo {
-    width: 24px;
-    height: 24px;
-  }
-  
-  /* Right side: Menu */
-  .nav-right {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 25px;
-  }
-  
-  .nav-right li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-    padding: 8px 12px;
-    transition: background-color 0.3s;
-  }
-  
-  /* Hover */
-  .nav-right li a:hover {
-    background-color: #555;
-    border-radius: 4px;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin-top: 80px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* Navigation Bar */
+nav {
+  background-color: #333;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Left side: App title + logo */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.logo {
+  width: 24px;
+  height: 24px;
+}
+
+/* Right side: Menu list */
+.nav-right {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.nav-right li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 8px 12px;
+  transition: background-color 0.3s;
+}
+
+/* Hover for menu links */
+.nav-right li a:hover {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+/* Login button */
 .login-btn {
   background-color: #007bff;
-  color: #fff;
+  color: #fff !important;
   border-radius: 4px;
   padding: 8px 12px;
-  margin-right: 10px;
 }
 
+.login-btn:hover {
+  background-color: #006ae6;
+}
+
+/* Signup button */
 .signup-btn {
   background-color: #28a745;
-  color: #fff;
+  color: #fff !important;
   border-radius: 4px;
   padding: 8px 12px;
 }
 
-.signup-btn:hover,
-.login-btn:hover {
-  opacity: 0.9;
+.signup-btn:hover {
+  background-color: #218838;
+}
+
+/* Logout button (btn2 in your JSX) */
+.btn2 {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn2:hover {
+  background-color: #c82333;
+}
+
+/* Username display */
+.username {
+  font-weight: bold;
+  color: #fff;
 }

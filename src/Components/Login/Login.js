@@ -9,7 +9,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  // Redirect to home if already logged in
+  // Redirect if already logged in
   useEffect(() => {
     if (sessionStorage.getItem("auth-token")) {
       navigate('/');
@@ -59,7 +59,6 @@ const Login = () => {
         navigate('/');
         window.location.reload();
       } else {
-        // Handle backend validation errors
         if (json.errors && Array.isArray(json.errors)) {
           const backendErrors = {};
           json.errors.forEach(err => {
@@ -67,7 +66,6 @@ const Login = () => {
           });
           setErrors(backendErrors);
         } else {
-          // General error message
           setErrors({ general: json.error || "Login failed" });
         }
       }
@@ -143,10 +141,6 @@ const Login = () => {
           </button>
         </div>
       </form>
-
-      <p className="forgot-password">
-        <Link to="/forgot-password">Forgot your password?</Link>
-      </p>
     </div>
   );
 };

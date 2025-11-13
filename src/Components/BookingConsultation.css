@@ -1,36 +1,75 @@
-.searchpage-container {
-    max-width: 1200px;
-    margin: auto;
-    margin-top:10%;
-    color: #414146;
-    padding: 0 20px;
-    position: static;
-    width: 100%;
-}
-.searchpage-container img {
-    max-width: 100%;
-}
-.search-results-container .doctorcard{
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    padding: 18px;
-    border-radius: 4px;
-    background-color: #fff;
-
+/* Container */
+.instant-consultation-container {
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: "Inter", sans-serif;
 }
 
-.search-results-container>h2 {
-    text-align: left;
+/* Title / Subtitle */
+.instant-consultation-title {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.instant-consultation-subtitle {
+  font-size: 16px;
+  color: #555;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* Search section spacing */
+.find-doctor-search {
+  margin-bottom: 25px;
+}
+
+/* Doctor cards section */
+.doctor-cards-container {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Message when no results found */
+.no-doctors-message {
+  color: #777;
+  font-style: italic;
+  text-align: center;
+  margin-top: 25px;
+}
+
+/* Loading state */
+.loading-text {
+  text-align: center;
+  font-size: 16px;
+  color: #007bff;
+}
+
+/* Error message */
+.error-text {
+  text-align: center;
+  color: #d9534f;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+/* Responsive tweaks */
+@media (min-width: 700px) {
+  .doctor-cards-container {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .instant-consultation-title {
     font-size: 24px;
-    font-weight: 700;
-}
+  }
 
-.search-results-container>h3 {
-    margin-top: 12px;
-    color: #2d2d32;
-    text-align: left;
-    font-size: 15px;
+  .instant-consultation-subtitle {
+    font-size: 14px;
+  }
 }

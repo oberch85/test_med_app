@@ -1,59 +1,61 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import './Navbar.css';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
-  // Extract username from email
   useEffect(() => {
     const storedEmail = sessionStorage.getItem("email");
 
     if (storedEmail) {
       setIsLoggedIn(true);
-      // setEmail(storedEmail);
-      const extractedUsername = storedEmail.split("@")[0];
-      setUsername(extractedUsername);
+      setUsername(storedEmail.split("@")[0]); // part before @
+    } else {
+      setIsLoggedIn(false);
+      setUsername("");
     }
   }, []);
 
   const handleLogout = () => {
+    // Clear auth + user info
     sessionStorage.removeItem("auth-token");
     sessionStorage.removeItem("name");
     sessionStorage.removeItem("email");
     sessionStorage.removeItem("phone");
+
+    // Clear doctorData + appointment info used by Notification
     localStorage.removeItem("doctorData");
 
-    // Remove reviewFormData from localStorage
+    // Remove any reviewFormData_* entries
+    const keysToRemove = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (key.startsWith("reviewFormData_")) {
-        localStorage.removeItem(key);
+        keysToRemove.push(key);
       }
     }
+    keysToRemove.forEach((key) => localStorage.removeItem(key));
 
     setIsLoggedIn(false);
-    // setEmail('');
-    setUsername('');
-    window.location.reload();
-  };
+    setUsername("");
 
-  const handleClick = () => {
-    alert('Logo clicked!');
+    navigate("/");
+    window.location.reload();
   };
 
   return (
     <nav>
       <div className="nav-left">
-        <span className="app-title">StayHealthy</span>
+        <Link to="/" className="app-title">
+          StayHealthy
+        </Link>
         <img
           src="https://img.icons8.com/ios-filled/50/medical-doctor.png"
           alt="Doctor Logo"
           className="logo"
-          onClick={handleClick}
-          style={{ cursor: 'pointer' }}
         />
       </div>
 
@@ -61,12 +63,15 @@ const Navbar = () => {
         <li>
           <Link to="/">Home</Link>
         </li>
+
         <li>
-          <Link to="/search/doctors">Appointments</Link>
+          <Link to="/book-appointment">Book Appointment</Link>
         </li>
+
         <li>
-          <Link to="/healthblog">Health Blog</Link>
+          <Link to="/instant-consultation">Instant Consultation</Link>
         </li>
+
         <li>
           <Link to="/reviews">Reviews</Link>
         </li>
@@ -77,16 +82,22 @@ const Navbar = () => {
               <span className="username">Hello, {username}</span>
             </li>
             <li>
-              <button className="btn2" onClick={handleLogout}>Logout</button>
+              <button className="btn2" onClick={handleLogout}>
+                Logout
+              </button>
             </li>
           </>
         ) : (
           <>
             <li>
-              <Link to="/signup" className="signup-btn">Sign Up</Link>
+              <Link to="/signup" className="signup-btn">
+                Sign Up
+              </Link>
             </li>
             <li>
-              <Link to="/login" className="login-btn">Login</Link>
+              <Link to="/login" className="login-btn">
+                Login
+              </Link>
             </li>
           </>
         )}

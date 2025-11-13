@@ -9,7 +9,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [showerr, setShowerr] = useState([]);  // <-- store an array of error messages
+  const [showerr, setShowerr] = useState([]); 
   const navigate = useNavigate();
 
   const register = async (e) => {
@@ -21,32 +21,32 @@ const SignUp = () => {
       return;
     }
 
-    const response = await fetch(`${API_URL}/api/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email, password, phone }),
-    });
+    try {
+      const response = await fetch(`${API_URL}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role, name, email, password, phone }),
+      });
 
-    const json = await response.json();
+      const json = await response.json();
 
-    if (json.authtoken) {
-      sessionStorage.setItem("auth-token", json.authtoken);
-      sessionStorage.setItem("name", name);
-      sessionStorage.setItem("phone", phone);
-      sessionStorage.setItem("email", email);
+      if (json.authtoken) {
+        sessionStorage.setItem("auth-token", json.authtoken);
+        sessionStorage.setItem("name", name);
+        sessionStorage.setItem("phone", phone);
+        sessionStorage.setItem("email", email);
 
-      navigate("/");
-      window.location.reload();
-    } else {
-      if (json.errors && Array.isArray(json.errors)) {
-        // Extract just the error messages
-        const messages = json.errors.map(err => err.msg);
-        setShowerr(messages);
+        navigate("/");
+        window.location.reload();
       } else {
-        setShowerr([json.error || "Registration failed"]);
+        if (json.errors && Array.isArray(json.errors)) {
+          setShowerr(json.errors.map(err => err.msg));
+        } else {
+          setShowerr([json.error || "Registration failed"]);
+        }
       }
+    } catch (error) {
+      setShowerr(["Network error. Please try again."]);
     }
   };
 
@@ -59,15 +59,22 @@ const SignUp = () => {
       <h2>Sign Up</h2>
 
       <form onSubmit={register}>
+        {/* Role */}
         <div className="form-group">
           <label htmlFor="role">Role:</label>
-          <select id="role" value={role} onChange={(e) => setRole(e.target.value)} required>
+          <select
+            id="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+          >
             <option value="">-- Select your role --</option>
             <option value="doctor">Doctor</option>
             <option value="patient">Patient</option>
           </select>
         </div>
 
+        {/* Name */}
         <div className="form-group">
           <label htmlFor="name">Full Name:</label>
           <input
@@ -80,6 +87,7 @@ const SignUp = () => {
           />
         </div>
 
+        {/* Phone */}
         <div className="form-group">
           <label htmlFor="phone">Phone Number:</label>
           <input
@@ -92,6 +100,7 @@ const SignUp = () => {
           />
         </div>
 
+        {/* Email */}
         <div className="form-group">
           <label htmlFor="email">Email Address:</label>
           <input
@@ -104,6 +113,7 @@ const SignUp = () => {
           />
         </div>
 
+        {/* Password */}
         <div className="form-group">
           <label htmlFor="password">Password:</label>
           <input
@@ -116,18 +126,23 @@ const SignUp = () => {
           />
         </div>
 
-        {/* Render all error messages */}
+        {/* Error messages */}
         {showerr.length > 0 && (
-          <div style={{ color: 'red', marginTop: '10px' }}>
+          <div className="error-list">
             {showerr.map((msg, index) => (
-              <div key={index}>{msg}</div>
+              <div key={index} className="error-text">
+                {msg}
+              </div>
             ))}
           </div>
         )}
 
+        {/* Buttons */}
         <div className="form-buttons">
           <button type="submit">Submit</button>
-          <button type="reset">Reset</button>
+          <button type="reset" onClick={() => setShowerr([])}>
+            Reset
+          </button>
         </div>
       </form>
     </div>

@@ -1,0 +1,51 @@
+.notification-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Content area (everything above the notification bar) */
+.notification-page-content {
+  flex: 1;
+  padding-bottom: 90px; /* space so the bottom bar doesn't overlap content */
+}
+
+/* Notification card fixed at bottom */
+.appointment-card {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #f9fafb;
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.5);
+  min-width: 320px;
+  max-width: 480px;
+  z-index: 2000;
+}
+
+.appointment-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.appointment-card__title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.appointment-card__message {
+  font-size: 14px;
+}
+
+/* Optional: responsive tweaks */
+@media (max-width: 480px) {
+  .appointment-card {
+    width: calc(100% - 40px);
+    min-width: 0;
+  }
+}

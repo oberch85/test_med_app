@@ -65,7 +65,7 @@ button:hover {
   opacity: 0.9;
 }
 
-/* Login link prompt above form */
+/* Login prompt */
 .login-prompt {
   text-align: center;
   margin-bottom: 10px;
@@ -83,3 +83,13 @@ button:hover {
   text-decoration: underline;
 }
 
+/* Error styling */
+.error-list {
+  margin-top: 10px;
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 14px;
+  margin-bottom: 4px;
+}

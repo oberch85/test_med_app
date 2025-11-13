@@ -1,114 +1,98 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import "./AppointmentForm.css";
 
-const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
-  const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [selectedSlot, setSelectedSlot] = useState(null);
-  const [selectedDate, setSelectedDate] = useState('');
+const AppointmentForm = ({ doctor, onSubmit, onCancel }) => {
+  // Form state
+  const [patientName, setPatientName] = useState("");
+  const [slotType, setSlotType] = useState("time-slot"); // "time-slot" | "specific-date"
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
 
-  const availableSlots = [
-    '10:00 AM - 10:30 AM',
-    '11:00 AM - 11:30 AM',
-    '02:00 PM - 02:30 PM',
-    '03:00 PM - 03:30 PM',
-  ];
-
-  const handleSlotSelection = (slot) => {
-    setSelectedSlot(slot);
-  };
-
-  const handleFormSubmit = (e) => {
+  // Handle form submission
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!/^\d{10}$/.test(phoneNumber)) {
-      alert('Please enter a valid 10-digit phone number.');
+    // Basic validation
+    if (!patientName || !date || !time) {
+      alert("Please fill all fields before booking the appointment.");
       return;
     }
 
-    if (!selectedSlot) {
-      alert('Please select a time slot.');
-      return;
-    }
+    // Build booking object
+    const bookingData = {
+      doctorId: doctor.id,
+      doctorName: doctor.name,
+      patientName,
+      slotType,
+      date,
+      time,
+    };
 
-    if (!selectedDate) {
-      alert('Please select a date.');
-      return;
-    }
-
-    onSubmit({ name, phoneNumber, selectedSlot, selectedDate });
-    setName('');
-    setPhoneNumber('');
-    setSelectedSlot(null);
-    setSelectedDate('');
+    // Pass data upward to DoctorCard
+    onSubmit && onSubmit(bookingData);
   };
 
   return (
-    <form onSubmit={handleFormSubmit} className="appointment-form">
-      <h3>Booking appointment with Dr. {doctorName} ({doctorSpeciality})</h3>
+    <form className="appointment-form" onSubmit={handleSubmit}>
+      <h3>Book Appointment with {doctor.name}</h3>
 
+      {/* Patient Name */}
       <div className="form-group">
-        <label htmlFor="name">Your Name:</label>
+        <label>Patient Name</label>
         <input
           type="text"
-          id="name"
-          placeholder="Enter your full name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          autoComplete="name"
+          value={patientName}
+          onChange={(e) => setPatientName(e.target.value)}
+          placeholder="Enter your name"
         />
       </div>
 
+      {/* Slot Type */}
       <div className="form-group">
-        <label htmlFor="phoneNumber">Phone Number:</label>
-        <input
-          type="tel"
-          id="phoneNumber"
-          placeholder="10-digit phone number"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-          required
-          pattern="\d{10}"
-          maxLength={10}
-          autoComplete="tel"
-        />
+        <label>Slot Type</label>
+        <select
+          value={slotType}
+          onChange={(e) => setSlotType(e.target.value)}
+        >
+          <option value="time-slot">Book a Time Slot</option>
+          <option value="specific-date">Book for Specific Date</option>
+        </select>
       </div>
 
+      {/* Appointment Date */}
       <div className="form-group">
-        <label htmlFor="appointmentDate">Select Date:</label>
+        <label>Appointment Date</label>
         <input
           type="date"
-          id="appointmentDate"
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
-          required
-          min={new Date().toISOString().split('T')[0]} // disables past dates
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
         />
       </div>
 
+      {/* Appointment Time */}
       <div className="form-group">
-        <label>Select Time Slot:</label>
-        <div className="slot-options">
-          {availableSlots.map((slot) => (
-            <button
-              type="button"
-              key={slot}
-              className={`slot-btn ${selectedSlot === slot ? 'selected' : ''}`}
-              onClick={() => handleSlotSelection(slot)}
-              aria-pressed={selectedSlot === slot}
-            >
-              {slot}
-            </button>
-          ))}
-        </div>
+        <label>Appointment Time</label>
+        <input
+          type="time"
+          value={time}
+          onChange={(e) => setTime(e.target.value)}
+        />
       </div>
 
-      <button
-        type="submit"
-        disabled={!selectedSlot || !name.trim() || !/^\d{10}$/.test(phoneNumber) || !selectedDate}
-      >
-        Book Now
-      </button>
+      {/* Buttons */}
+      <div className="form-buttons">
+        <button type="submit" className="confirm-btn">
+          Confirm Booking
+        </button>
+
+        <button
+          type="button"
+          className="cancel-btn"
+          onClick={() => onCancel && onCancel()}
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 };

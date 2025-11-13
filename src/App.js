@@ -1,48 +1,55 @@
-// src/App.js
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// Import necessary modules from React library
+import React from "react";
 
-// Import your components
-import Navbar from './Components/Navbar/Navbar';
-import BookingConsultation from './Components/BookingConsultation';
-import SignUp from './Components/SignUp/SignUp';
-import Login from './Components/Login/Login';
-// Import other components as needed (Home, HealthBlog, Reviews, etc.)
+// Import React Router components for client-side routing
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// src/pages/Home.js (or inline)
-const Home = () => (
-  <div style={{
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '80vh',
-    textAlign: 'center'
-  }}>
-    <h1>Welcome to StayHealthy Home Page</h1>
-  </div>
-);
+// Import global styles (optional, but typical for CRA)
+import "./App.css";
 
+// Layout wrapper with Navbar + notification bar
+import Notification from "./Components/Notification/Notification";
 
-
-const HealthBlog = () => <h1>Health Blog</h1>;
-const Reviews = () => <h1>Reviews</h1>;
-const Appointments = () => <h1>Appointments</h1>;
+// Import custom components (pages)
+import LandingPage from "./Components/LandingPage/LandingPage";
+import SignUp from "./Components/SignUp/SignUp";
+import Login from "./Components/Login/Login";
+import InstantConsultation from "./Components/InstantConsultation/InstantConsultation";
+import BookingConsultation from "./Components/BookingConsultation";
+import Reviews from "./Components/Reviews";
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/instant-consultation" element={<BookingConsultation />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/search/doctors" element={<Appointments />} />
-        <Route path="/healthblog" element={<HealthBlog />} />
-        <Route path="/reviews" element={<Reviews />} />
-        {/* Add more routes as needed */}
-      </Routes>
-    </Router>
+    <div className="App">
+      <BrowserRouter>
+        {/* Notification wraps all routes and renders Navbar + notification banner */}
+        <Notification>
+          <Routes>
+            {/* Home / Landing Page */}
+            <Route path="/" element={<LandingPage />} />
+
+            {/* Authentication */}
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+
+            {/* Instant Consultation feature */}
+            <Route
+              path="/instant-consultation"
+              element={<InstantConsultation />}
+            />
+
+            {/* Appointment Booking feature */}
+            <Route
+              path="/book-appointment"
+              element={<BookingConsultation />}
+            />
+
+            {/* Reviews / Feedback */}
+            <Route path="/reviews" element={<Reviews />} />
+          </Routes>
+        </Notification>
+      </BrowserRouter>
+    </div>
   );
 }
 
